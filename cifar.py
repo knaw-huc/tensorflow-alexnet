@@ -42,6 +42,8 @@ class Cifar:
         self.__res__ = get_images_from(dir)
         self.batch_size = batch_size
         self.batches = []
+        self.number_of_classes = 10
+        self.image_size = 32
         self.__batch_num__ = 0
 
         for i in range(math.ceil(len(self.__res__)/batch_size)):
@@ -49,10 +51,10 @@ class Cifar:
         
         self.test_set = __extract_reshape_file__(os.path.join(dir, "test_batch")) # <- Added for test data
     
-    def batch(self, num):
+    def batch(self, num) -> [(np.ndarray, int)]:
         return self.batches[num]
     
-    def next_batch(self):
+    def next_batch(self) -> [(np.ndarray, int)]:
         if self.__batch_num__ <= len(self.batches):
             res = self.batches[self.__batch_num__]
             self.__batch_num__ += 1
@@ -63,3 +65,6 @@ class Cifar:
     
     def reset_batch(self):
         self.__batch_num__ = 0
+
+    def test_set(self):
+        return self.test_set

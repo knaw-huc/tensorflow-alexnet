@@ -1,9 +1,10 @@
 import tensorflow as tf
 
-n_classes = 10 # number of classes in cifar set
-
 image_size = 32
+n_classes = 16
 
+# image_size = tf.compat.v1.placeholder(tf.int32, name="image_size")
+# n_classes = tf.compat.v1.placeholder(tf.int32, name="n_classes")
 dropout = tf.compat.v1.placeholder(tf.float32, name="dropout_rate")
 input_images = tf.compat.v1.placeholder(tf.float32, shape=[None, image_size, image_size, 3], name="input_images")
 
