@@ -17,7 +17,8 @@ session_file = "saved_model/alexnet.ckpt"
 dataset = RvlCdip(batch_size=batch_size)
 y = tf.compat.v1.placeholder(tf.float32, [None, dataset.number_of_classes])
 print("model.image_size", model.image_size)
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=model.out, labels=y))
+
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=model.out, labels=y))
 optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 correct_pred = tf.equal(tf.argmax(model.out, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
@@ -26,7 +27,7 @@ tf.compat.v1.summary.histogram("cost", cost)          # <- Added this summary of
 tf.compat.v1.summary.histogram("accuracy", accuracy)  # <- Added this summary of accuracy
 
 
-init = tf.initialize_all_variables()
+init = tf.compat.v1.initialize_all_variables()
 
 saver = tf.compat.v1.train.Saver()
 i = 0
