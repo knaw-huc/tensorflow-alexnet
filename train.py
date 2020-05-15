@@ -3,13 +3,17 @@ from rvl_cdip import RvlCdip
 from tqdm import tqdm
 import tensorflow as tf
 import model
+# import model_example as model
 import helper
 import os
 
 learning_rate = 0.001
+# learning_rate = 0.00000001
 batch_size = 100
 no_of_epochs = 10
 dropout_rate = 0.8
+
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
 session_file = "saved_model/alexnet.ckpt"
 
@@ -58,10 +62,14 @@ with tf.compat.v1.Session() as sess:
         print("Train Acc: {} Loss: {}".format(acc, loss))
 
         # Test the model
-        # inp_test, out_test = helper.transform_to_input_output(dataset.test_set(), dim=model.n_classes)
+        no_test_sets = len(dataset.test_sets)
+        total_test_acc = 0
+        for test_no in tqdm(range(no_test_sets), desc="Epoch {}".format(epoch), unit="test set"):
+            inp_test, out_test = helper.transform_to_input_output(dataset.test_set(test_no), dim=model.n_classes)
 
-        # test_acc = sess.run([accuracy], feed_dict={model.input_images: inp_test,y: out_test, model.dropout: 1.})
-        # print("Test Acc: {}".format(test_acc))
+            test_acc = sess.run([accuracy], feed_dict={model.input_images: inp_test,y: out_test, model.dropout: 1.})
+            total_test_acc += test_acc[0]
+        print("Test Acc: {}".format(total_test_acc / no_test_sets))
 
         print("save checkpoint")
         saver.save(sess, session_file)

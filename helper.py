@@ -1,6 +1,6 @@
 import numpy as np
 
-def __one_hot__(num, dim=1000):
+def __one_hot__(num, dim=1000) -> np.ndarray:
     vec = np.zeros(dim)
     vec[num] = 1
     return vec

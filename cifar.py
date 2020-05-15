@@ -49,7 +49,7 @@ class Cifar:
         for i in range(math.ceil(len(self.__res__)/batch_size)):
             self.batches.append(self.__res__[i*batch_size:(i+1)*batch_size])
         
-        self.test_set = __extract_reshape_file__(os.path.join(dir, "test_batch")) # <- Added for test data
+        self.test_sets = [__extract_reshape_file__(os.path.join(dir, "test_batch"))] # <- Added for test data
     
     def batch(self, num) -> [(np.ndarray, int)]:
         return self.batches[num]
@@ -66,5 +66,5 @@ class Cifar:
     def reset_batch(self):
         self.__batch_num__ = 0
 
-    def test_set(self):
-        return self.test_set
+    def test_set(self, num:int):
+        return self.test_sets[num]
