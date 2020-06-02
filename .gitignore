@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # project specific
-logs/
+*logs/
 saved_model/
