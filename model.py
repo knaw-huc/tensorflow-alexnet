@@ -83,9 +83,11 @@ class Model:
         conv9 = tf.nn.leaky_relu(conv_with_bias, name="conv9")
 
         ## Fully connected layers
-        fc_size_in = 768
+        
         conv9 = tf.keras.layers.Flatten()(conv9) # tf.flatten
-
+        # fc_size_in = 768
+        fc_size_in = conv9.shape[-1]
+        
         # First fully connected layer
         weights = tf.Variable(tf.random.truncated_normal([fc_size_in, fc_size]), name="fc1_weights")
         bias = tf.Variable(tf.random.truncated_normal([fc_size]), name="fc1_bias")
